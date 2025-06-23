@@ -8,7 +8,7 @@ variable "cloud_integration" {
   nullable    = false
 
   validation {
-    condition = can(regex("^(|openstack)$", var.cloud_integration))
+    condition     = can(regex("^(|openstack)$", var.cloud_integration))
     error_message = "Cloud integration must be one of: '', openstack."
   }
 }
@@ -42,19 +42,19 @@ Schema represented by the juju model resource:
 https://registry.terraform.io/providers/juju/juju/0.16.0/docs/resources/model
 EOT
 
-  type        = object({
-    name         = string
-    cloud        = string
-    region       = optional(string)
-    config       = optional(map(any))
-    constraints  = optional(string)
-    credential   = optional(string)
+  type = object({
+    name        = string
+    cloud       = string
+    region      = optional(string)
+    config      = optional(map(any))
+    constraints = optional(string)
+    credential  = optional(string)
   })
 
   validation {
     condition = (
       var.model.config == null || alltrue([
-        for k, v in var.model.config != null ? var.model.config : {}:
+        for k, v in var.model.config != null ? var.model.config : {} :
         v == null || can(tostring(v)) || can(tonumber(v)) || can(tobool(v))
       ])
     )
@@ -63,47 +63,35 @@ EOT
 }
 
 variable "ceph_endpoints" {
-
+  description = ""
+  type        = null
 }
 
 variable "k8s_config" {
+  description = "configuration for the k8s charm"
   type = object({
-    base        = null
-    channel     = null
-    config      = null
-    constraints = null
-    resources   = null
-    revision    = null
-    units       = null
-    storage     = null
+    base        = string
+    channel     = string
+    config      = map(string)
+    constraints = string
+    resources   = map(string)
+    revision    = number
+    units       = number
+    storage     = map(string)
   })
-  yaml_data = {
-    for app, obj in local.full_map : app => merge({app_name = app}, local.default_config, obj)
-    if (
-      obj != null &&
-      (app == var.charm || lookup(obj, "charm", null) == var.charm) &&
-      (lookup(obj, "units", null) != 0)
-    )
-  }
+
 }
 
-variable "k8s_worker_config {
+variable "k8s_worker_config" {
+  description = "configuration for the k8s_worker charm"
   type = object({
-    base        = null
-    channel     = null
-    config      = null
-    constraints = null
-    resources   = null
-    revision    = null
-    units       = null
-    storage     = null
+    base        = string
+    channel     = string
+    config      = map(string)
+    constraints = string
+    resources   = map(string)
+    revision    = number
+    units       = number
+    storage     = map(string)
   })
-  yaml_data = {
-    for app, obj in local.full_map : app => merge({app_name = app}, local.default_config, obj)
-    if (
-      obj != null &&
-      (app == var.charm || lookup(obj, "charm", null) == var.charm) &&
-      (lookup(obj, "units", null) != 0)
-    )
-  }
 }
