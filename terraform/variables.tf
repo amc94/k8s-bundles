@@ -1,11 +1,6 @@
 # Copyright 2024 Canonical Ltd.
 # See LICENSE file for licensing details.
 
-variable "manifest_yaml" {
-  description = "Absolute path to the manifest yaml file for the charm configurations."
-  type        = string
-}
-
 variable "cloud_integration" {
   description = "Selection of a cloud integration."
   type        = string
@@ -68,5 +63,47 @@ EOT
 }
 
 variable "ceph_endpoints" {
-  
+
+}
+
+variable "k8s_config" {
+  type = object({
+    base        = null
+    channel     = null
+    config      = null
+    constraints = null
+    resources   = null
+    revision    = null
+    units       = null
+    storage     = null
+  })
+  yaml_data = {
+    for app, obj in local.full_map : app => merge({app_name = app}, local.default_config, obj)
+    if (
+      obj != null &&
+      (app == var.charm || lookup(obj, "charm", null) == var.charm) &&
+      (lookup(obj, "units", null) != 0)
+    )
+  }
+}
+
+variable "k8s_worker_config {
+  type = object({
+    base        = null
+    channel     = null
+    config      = null
+    constraints = null
+    resources   = null
+    revision    = null
+    units       = null
+    storage     = null
+  })
+  yaml_data = {
+    for app, obj in local.full_map : app => merge({app_name = app}, local.default_config, obj)
+    if (
+      obj != null &&
+      (app == var.charm || lookup(obj, "charm", null) == var.charm) &&
+      (lookup(obj, "units", null) != 0)
+    )
+  }
 }
