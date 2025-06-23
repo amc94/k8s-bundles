@@ -14,8 +14,8 @@ locals {
     storage     = null
   }
   yaml_data = {
-    for app, obj in local.full_map : app => merge({app_name = app}, local.default_config, obj)
-    if (
+    for app, obj in local.full_map : app => merge({ app_name = app }, local.default_config, obj)
+    if(
       obj != null &&
       (app == var.charm || lookup(obj, "charm", null) == var.charm) &&
       (lookup(obj, "units", null) != 0)
