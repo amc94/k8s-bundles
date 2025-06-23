@@ -66,3 +66,7 @@ EOT
     error_message = "Config must be a map where values are only strings, numbers, or bools."
   }
 }
+
+variable "ceph_endpoints" {
+  
+}

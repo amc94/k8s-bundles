@@ -21,37 +21,6 @@ resource "null_resource" "validate_unique_k8s" {
 }
 
 
-module "ceph_mon" {
-  source      = "git::https://github.com/canonical/ceph-charms//ceph-mon/terraform?ref=main"
-  model       = var.model
-  app_name    = local.mon_config.app_name
-  base        = coalesce(local.mon_config.base, var.k8s.base)
-  constraints = coalesce(local.mon_config.constraints, var.k8s.constraints)
-  channel     = coalesce(local.mon_config.channel, var.k8s.channel)
-
-  config    = coalesce(local.mon_config.config, {})
-  resources = local.mon_config.resources
-  revision  = local.mon_config.revision
-  units     = local.mon_config.units
-}
-
-module "ceph_osd" {
-  source = "git::https://github.com/canonical/ceph-charms//ceph-osd/terraform?ref=main"
-  for_each    = var.osds
-
-  model       = var.model
-  app_name    = each.value.app_name
-  base        = coalesce(each.value.base, var.k8s.base)
-  constraints = coalesce(each.value.constraints, var.k8s.constraints)
-  channel     = coalesce(each.value.channel, var.k8s.channel)
-
-  config    = coalesce(each.value.config, {})
-  resources = each.value.resources
-  storage   = coalesce(each.value.storage, {})
-  revision  = each.value.revision
-  units     = each.value.units
-}
-
 module "ceph_csi" {
   source = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=main"
   model    = var.model
