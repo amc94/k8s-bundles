@@ -65,11 +65,6 @@ EOT
   }
 }
 
-variable "ceph_endpoints" {
-  description = ""
-  type        = string
-}
-
 variable "k8s_config" {
   description = "configuration for the k8s charm"
   type = object({
@@ -116,3 +111,27 @@ variable "csi_config" {
   })
   nullable = true
 }
+variable "ceph_deployment" {
+  description = "whether a ceph deployment exists for this module to relate to, allowed values internal | external | none"
+  type        = string
+  default     = "None"
+
+  validation {
+    condition     = contains(["internal", "external", "none"], var.ceph_deployment)
+    error_message = "Ceph deployment must be one of 'internal', 'external', or 'none'."
+  }
+
+}
+variable "ceph_endpoints" {
+  description = ""
+  type        = string
+  default     = null
+  nullable    = true
+
+  validation {
+    condition = var.ceph_deployment == "external" || var.ceph_endpoints != null
+    error_message = "ceph endpoints must be provided for external ceph deployments."
+  }
+
+}
+
