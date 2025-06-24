@@ -20,7 +20,7 @@ resource "null_resource" "validate_unique_k8s" {
 
 output "debug" {
   value = {
-    k8s_config = local.k8s_config
+    k8s_config = var.k8s_config
     ceph       = [for ceph in module.ceph : ceph.debug]
     openstack  = [for openstack in module.openstack : openstack.debug]
   }
@@ -28,8 +28,8 @@ output "debug" {
 
 module "k8s" {
   source   = "git::https://github.com/canonical/k8s-operator//charms/worker/k8s/terraform?ref=main"
-  app_name = local.k8s_config.app_name
-  channel  = local.k8s_config.channel
+  app_name = var.k8s_config.app_name
+  channel  = var.k8s_config.channel
   config = merge(
     (
       length(keys(module.k8s_worker_config.config)) > 0 ?
@@ -38,14 +38,14 @@ module "k8s" {
       # if there are no-workers, control-planes cannot be tainted
       {}
     ),
-    local.k8s_config.config,
+    var.k8s_config.config,
   )
-  constraints = local.k8s_config.constraints
+  constraints = var.k8s_config.constraints
   model       = resource.juju_model.this.name
-  resources   = local.k8s_config.resources
-  revision    = local.k8s_config.revision
-  base        = local.k8s_config.base
-  units       = local.k8s_config.units
+  resources   = var.k8s_config.resources
+  revision    = var.k8s_config.revision
+  base        = var.k8s_config.base
+  units       = var.k8s_config.units
 }
 
 module "k8s_worker" {
@@ -68,24 +68,24 @@ module "openstack" {
   model  = resource.juju_model.this.name
   k8s = {
     app_name    = module.k8s.app_name
-    base        = local.k8s_config.base
-    constraints = local.k8s_config.constraints
-    channel     = local.k8s_config.channel
+    base        = var.k8s_config.base
+    constraints = var.k8s_config.constraints
+    channel     = var.k8s_config.channel
     provides    = module.k8s.provides
     requires    = module.k8s.requires
   }
 }
 
 module "ceph_csi" {
-  count       = length(var.csi_integration) > 0? 1 : 0
+  count       = length(var.csi_integration) > 0 ? 1 : 0
   source      = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=main"
   model       = var.model
-  app_name    = local.csi_config.app_name
-  base        = local.csi_config.base
-  constraints = local.csi_config.constraints
-  channel     = coalesce(local.csi_config.channel, var.k8s.channel)
+  app_name    = var.csi_config.app_name
+  base        = var.csi_config.base
+  constraints = var.csi_config.constraints
+  channel     = coalesce(var.csi_config.channel, var.k8s.channel)
 
-  config   = coalesce(local.csi_config.config, {})
-  revision = local.csi_config.revision
+  config   = coalesce(var.csi_config.config, {})
+  revision = var.csi_config.revision
 }
 

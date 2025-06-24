@@ -95,3 +95,18 @@ variable "k8s_worker_config" {
     storage     = map(string)
   })
 }
+
+variable "csi_config" {
+  description = "configuration for the k8s_worker charm"
+  type = object({
+    base        = string
+    channel     = string
+    config      = optional(map(string))
+    constraints = optional(string)
+    resources   = optional(map(string))
+    revision    = optional(number)
+    units       = optional(number)
+    storage     = optional(map(string))
+  })
+  nullable = true
+}
