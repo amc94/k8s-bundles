@@ -104,7 +104,7 @@ variable "k8s_worker_config" {
 variable "csi_config" {
   description = "configuration for the k8s_worker charm"
   type = object({
-    app_name    = option(string,"ceph_csi")
+    app_name    = optional(string,"ceph_csi")
     base        = string
     channel     = string
     config      = optional(map(string))
