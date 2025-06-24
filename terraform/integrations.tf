@@ -5,8 +5,8 @@ resource "juju_model" "this" {
   name = var.model.name
 
   cloud {
-    name   = var.model.cloud
-    region = var.model.region
+    name   = var.model.cloud.name
+    region = var.model.cloud.region
   }
 
   config = merge(
