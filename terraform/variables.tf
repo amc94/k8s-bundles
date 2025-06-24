@@ -44,8 +44,11 @@ EOT
 
   type = object({
     name        = string
-    cloud       = string
-    region      = optional(string)
+    cloud       = object({
+      name      = string
+      region    = optional(string)
+    })
+    
     config      = optional(map(any))
     constraints = optional(string)
     credential  = optional(string)
