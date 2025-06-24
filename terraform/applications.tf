@@ -63,9 +63,9 @@ module "k8s_worker" {
 }
 
 module "openstack" {
-  count         = var.cloud_integration == "openstack" ? 1 : 0
-  source        = "./openstack"
-  model         = resource.juju_model.this.name
+  count  = var.cloud_integration == "openstack" ? 1 : 0
+  source = "./openstack"
+  model  = resource.juju_model.this.name
   k8s = {
     app_name    = module.k8s.app_name
     base        = local.k8s_config.base
@@ -76,16 +76,16 @@ module "openstack" {
   }
 }
 
-module "ceph" {
-  count         = length([for v in var.csi_integration : v if v == "ceph"])
-  source        = "./ceph"
-  model         = resource.juju_model.this.name
-  k8s = {
-    app_name    = module.k8s.app_name
-    base        = local.k8s_config.base
-    constraints = local.k8s_config.constraints
-    channel     = local.k8s_config.channel
-    provides    = module.k8s.provides
-    requires    = module.k8s.requires
-  }
+module "ceph_csi" {
+  count       = length(var.csi_integration) > 0? 1 : 0
+  source      = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=main"
+  model       = var.model
+  app_name    = local.csi_config.app_name
+  base        = local.csi_config.base
+  constraints = local.csi_config.constraints
+  channel     = coalesce(local.csi_config.channel, var.k8s.channel)
+
+  config   = coalesce(local.csi_config.config, {})
+  revision = local.csi_config.revision
 }
+
