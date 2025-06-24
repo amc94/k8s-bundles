@@ -83,7 +83,7 @@ module "ceph_csi" {
   app_name    = var.csi_config.app_name
   base        = var.csi_config.base
   constraints = var.csi_config.constraints
-  channel     = coalesce(var.csi_config.channel, module.k8s.channel)
+  channel     = coalesce(var.csi_config.channel, var.k8s_config.channel)
 
   config   = coalesce(var.csi_config.config, {})
   revision = var.csi_config.revision
