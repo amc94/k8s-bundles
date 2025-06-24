@@ -14,7 +14,7 @@ resource "juju_integration" "ceph_client" {
 }
 
 resource "juju_integration" "ceph_mon" {
-  model = var.model
+  model    = var.model
   for_each = module.ceph_osd
   application {
     name     = module.ceph_mon.app_name

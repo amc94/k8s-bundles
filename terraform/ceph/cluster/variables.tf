@@ -8,17 +8,17 @@ variable "name" {
 
 variable "mons" {
   description = "Map of Ceph Mon Applications."
-  type = map
+  type        = map(any)
 }
 
 variable "osds" {
   description = "Map of Ceph OSD Applications."
-  type = map
+  type        = map(any)
 }
 
 variable "csis" {
   description = "Map of Ceph CSI Applications."
-  type = map
+  type        = map(any)
 }
 
 variable "model" {
