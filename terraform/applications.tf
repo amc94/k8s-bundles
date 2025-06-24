@@ -21,7 +21,7 @@ resource "null_resource" "validate_unique_k8s" {
 output "debug" {
   value = {
     k8s_config = var.k8s_config
-    ceph       = [for ceph in var.ceph_config : ceph.debug]
+    #ceph       = [for ceph in var.ceph_config : ceph.debug]
     #openstack  = [for openstack in module.openstack : openstack.debug]
   }
 }
@@ -52,9 +52,9 @@ module "k8s_worker" {
   source      = "git::https://github.com/canonical/k8s-operator//charms/worker/terraform?ref=main"
   for_each    = var.k8s_worker_config.config
   app_name    = each.value.app_name
-  base        = coalesce(each.value.base, local.k8s_config.base)
-  constraints = coalesce(each.value.constraints, local.k8s_config.constraints)
-  channel     = coalesce(each.value.channel, local.k8s_config.channel)
+  base        = coalesce(each.value.base, var.k8s_config.base)
+  constraints = coalesce(each.value.constraints, var.k8s_config.constraints)
+  channel     = coalesce(each.value.channel, var.k8s_config.channel)
   config      = each.value.config
   model       = resource.juju_model.this.name
   resources   = each.value.resources
@@ -79,11 +79,11 @@ module "k8s_worker" {
 module "ceph_csi" {
   count       = length(var.csi_integration) > 0 ? 1 : 0
   source      = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=main"
-  model       = var.model
+  model       = var.model.name
   app_name    = var.csi_config.app_name
   base        = var.csi_config.base
   constraints = var.csi_config.constraints
-  channel     = coalesce(var.csi_config.channel, var.k8s.channel)
+  channel     = coalesce(var.csi_config.channel, module.k8s.channel)
 
   config   = coalesce(var.csi_config.config, {})
   revision = var.csi_config.revision
