@@ -4,7 +4,7 @@
 locals {
   _k8s_keys      = keys(var.k8s_config.config)
   _k8s_key_count = length(local._k8s_keys)
-  k8s_config     = local._k8s_key_count == 1 ? module.k8s_config.config[local._k8s_keys[0]] : null
+  k8s_config     = local._k8s_key_count == 1 ? var.k8s_config.config[local._k8s_keys[0]] : null
 }
 
 resource "null_resource" "validate_unique_k8s" {
@@ -21,7 +21,7 @@ resource "null_resource" "validate_unique_k8s" {
 output "debug" {
   value = {
     k8s_config = var.k8s_config
-    ceph       = [for ceph in var.ceph : ceph.debug]
+    ceph       = [for ceph in var.ceph_config : ceph.debug]
     #openstack  = [for openstack in module.openstack : openstack.debug]
   }
 }
