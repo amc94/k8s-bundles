@@ -67,7 +67,7 @@ EOT
 
 variable "ceph_endpoints" {
   description = ""
-  type        = list(string)
+  type        = string
 }
 
 variable "k8s_config" {
