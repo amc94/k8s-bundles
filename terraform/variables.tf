@@ -76,12 +76,12 @@ variable "k8s_config" {
     app_name    = optional(string, "k8s")
     base        = string
     channel     = string
-    config      = map(string)
-    constraints = string
-    resources   = map(string)
+    config      = optional(map(string), {})
+    constraints = optional(string)
+    resources   = optional(map(string))
     revision    = number
     units       = number
-    storage     = map(string)
+    storage     = optional(map(string))
   })
 
 }
@@ -92,12 +92,12 @@ variable "k8s_worker_config" {
     app_name    = optional(string, "k8s_worker")
     base        = string
     channel     = string
-    config      = map(string)
+    config      = optional(map(string), {})
     constraints = string
-    resources   = map(string)
-    revision    = number
+    resources   = optional(map(string))
+    revision    = optional(number)
     units       = number
-    storage     = map(string)
+    storage     = optional(map(string))
   })
 }
 
