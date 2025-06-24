@@ -41,7 +41,7 @@ module "k8s" {
     var.k8s_config.config,
   )
   constraints = var.k8s_config.constraints
-  model       = resource.juju_model.this.name
+  model       = data.juju_model.this.name
   resources   = var.k8s_config.resources
   revision    = var.k8s_config.revision
   base        = var.k8s_config.base
@@ -56,7 +56,7 @@ module "k8s_worker" {
   constraints = coalesce(each.value.constraints, var.k8s_config.constraints)
   channel     = coalesce(each.value.channel, var.k8s_config.channel)
   config      = each.value.config
-  model       = resource.juju_model.this.name
+  model       = data.juju_model.this.name
   resources   = each.value.resources
   revision    = each.value.revision
   units       = each.value.units
@@ -65,7 +65,7 @@ module "k8s_worker" {
 #module "openstack" {
 #  count  = var.cloud_integration == "openstack" ? 1 : 0
 #  source = "./openstack"
-#  model  = resource.juju_model.this.name
+#  model  = data.juju_model.this.name
 #  k8s = {
 #    app_name    = module.k8s.app_name
 #    base        = var.k8s_config.base

@@ -6,7 +6,7 @@ data "juju_model" "this" {
 }
 
 resource "juju_integration" "k8s_cluster_integration" {
-  model    = resource.juju_model.this.name
+  model    = data.juju_model.this.name
   for_each = module.k8s_worker
   application {
     name     = module.k8s.app_name
@@ -19,7 +19,7 @@ resource "juju_integration" "k8s_cluster_integration" {
 }
 
 resource "juju_integration" "k8s_containerd" {
-  model    = resource.juju_model.this.name
+  model    = data.juju_model.this.name
   for_each = module.k8s_worker
   application {
     name     = module.k8s.app_name
@@ -32,7 +32,7 @@ resource "juju_integration" "k8s_containerd" {
 }
 
 resource "juju_integration" "k8s_cos_worker_tokens" {
-  model    = resource.juju_model.this.name
+  model    = data.juju_model.this.name
   for_each = module.k8s_worker
   application {
     name     = module.k8s.app_name
