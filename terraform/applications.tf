@@ -66,7 +66,6 @@ module "openstack" {
   count         = var.cloud_integration == "openstack" ? 1 : 0
   source        = "./openstack"
   model         = resource.juju_model.this.name
-  manifest_yaml = var.manifest_yaml
   k8s = {
     app_name    = module.k8s.app_name
     base        = local.k8s_config.base
@@ -81,7 +80,6 @@ module "ceph" {
   count         = length([for v in var.csi_integration : v if v == "ceph"])
   source        = "./ceph"
   model         = resource.juju_model.this.name
-  manifest_yaml = var.manifest_yaml
   k8s = {
     app_name    = module.k8s.app_name
     base        = local.k8s_config.base
