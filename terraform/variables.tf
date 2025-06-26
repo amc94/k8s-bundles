@@ -43,12 +43,12 @@ https://registry.terraform.io/providers/juju/juju/0.16.0/docs/resources/model
 EOT
 
   type = object({
-    name        = string
-    cloud       = object({
-      name      = string
-      region    = optional(string)
+    name = string
+    cloud = object({
+      name   = string
+      region = optional(string)
     })
-    
+
     config      = optional(map(any))
     constraints = optional(string)
     credential  = optional(string)
@@ -99,7 +99,7 @@ variable "k8s_worker_config" {
 variable "csi_config" {
   description = "configuration for the k8s_worker charm"
   type = object({
-    app_name    = optional(string,"ceph_csi")
+    app_name    = optional(string, "ceph_csi")
     base        = string
     channel     = string
     config      = optional(map(string))
@@ -114,7 +114,7 @@ variable "csi_config" {
 variable "ceph_deployment" {
   description = "whether a ceph deployment exists for this module to relate to, allowed values internal | external | none"
   type        = string
-  default     = "None"
+  default     = "none"
 
   validation {
     condition     = contains(["internal", "external", "none"], var.ceph_deployment)
@@ -129,9 +129,26 @@ variable "ceph_endpoints" {
   nullable    = true
 
   validation {
-    condition = var.ceph_deployment == "external" || var.ceph_endpoints != null
+    condition     = var.ceph_deployment == "external" || var.ceph_endpoints != null
     error_message = "ceph endpoints must be provided for external ceph deployments."
   }
 
 }
 
+variable "cos_endpoints" {
+  description = "cos endpoints to relate to"
+  default     = null
+  nullable    = true
+}
+
+variable "grafana_agent_config" {
+  type = object({
+    app_name    = optional(string)
+    channel     = optional(string)
+    config      = optional(map(any), {})
+    constraints = optional(string)
+    model_name  = string
+    revision    = optional(number)
+    units       = optional(number, 1)
+  })
+}
