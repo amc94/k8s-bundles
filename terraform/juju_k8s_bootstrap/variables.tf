@@ -19,6 +19,12 @@ variable "ha_configuration" {
   description = "enable ha"
 }
 
+variable "number_of_ha_units" {
+  type        = number
+  description = "how many units for HA"
+  default     = 3
+}
+
 variable "model_defaults" {
   type = object({
     # Authentication and browser options
