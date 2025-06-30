@@ -1,7 +1,7 @@
 #This should be a credential stored in vault
 variable "kubeconfig" {
   type        = string
-  description = "base64 encoded kubeconfig to use for the cloud"
+  description = "Path to kubeconfig"
 }
 
 variable "controller_name" {
@@ -28,26 +28,24 @@ variable "number_of_ha_units" {
 variable "model_defaults" {
   type = object({
     # Authentication and browser options
-    no_browser_login = optional(bool)
-
+    no_browser_login        = optional(bool)
     file                    = optional(string)
     ignore_read_only_fields = optional(bool)
     out_file                = optional(string)
     region                  = optional(string)
     reset                   = optional(string)
   })
-
+  default = null
 }
 
 variable "k8s-options" {
   type = object({
-    client       = optional(bool)
-    cloud        = optional(string)
-    cluster-name = optional(string)
-    context-name = optional(string)
+    client       = optional(bool, false)
+    cluster_name = optional(string)
+    context_name = optional(string)
     credential   = optional(string)
     region       = optional(string)
-    skip-storage = optional(bool)
+    skip_storage = optional(bool, false)
     storage      = optional(storage)
   })
 }
