@@ -12,9 +12,10 @@ variable "model_endpoints" {
   description = ""
 }
 
-variable "cos_urls" {
-  description = ""
-  type        = list(string)
+variable "cos_endpoints" {
+  description = "COS endpoints to integrate with via CMR"
+  type        = set(string)
+  default     = []
 }
 
 variable "grafana_agent_config" {

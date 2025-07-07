@@ -5,6 +5,15 @@ locals {
   _k8s_keys      = keys(var.k8s_config.config)
   _k8s_key_count = length(local._k8s_keys)
   k8s_config     = local._k8s_key_count == 1 ? var.k8s_config.config[local._k8s_keys[0]] : null
+
+  # Model endpoints for grafana_agent integration
+  model_endpoints = {
+    k8s = {
+      app_name = module.k8s.app_name
+      endpoint = "cos-agent"
+    }
+  }
+
 }
 
 resource "null_resource" "validate_unique_k8s" {
@@ -93,5 +102,7 @@ module "grafana_agent" {
   count                = length(var.cos_endpoints) > 0 ? 1 : 0
   source               = "./grafana_agent"
   model_name           = var.model_name
-  grafana_agent_config = grafana_agent_config
+  model_endpoints      = local.model_endpoints
+  cos_endpoints        = var.cos_endpoints
+  grafana_agent_config = var.grafana_agent_config
 }

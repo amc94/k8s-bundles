@@ -10,10 +10,10 @@ locals {
   }
 
   cmr_integrations = {
-    for key, value in var.cos_endpoints : key => {
-      offer_url             = value.endpoint
-      consuming_application = grafana
-      consuming_endpoint    = value.endpoint
+    for url in var.cos_endpoints : url => {
+      offer_url             = url
+      consuming_application = var.grafana_agent_config.app_name
+      consuming_endpoint    = "cos-agent"
     }
   }
 }
