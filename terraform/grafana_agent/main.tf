@@ -11,13 +11,13 @@ module "grafana_agent" {
 }
 
 module "model_integration" {
-  for_each     = var.model_endpoints
+  count        = length(var.model_endpoints) > 0 ? 1 : 0
   source       = "../model_integrator"
   integrations = local.integrations
 }
 
 module "cos_integration" {
-  for_each  = var.cos_endpoints
-  source = "../cmr_integrator"
+  count        = length(var.cos_endpoints) > 0 ? 1 : 0
+  source       = "../cmr_integrator"
   integrations = local.cmr_integrations
 }
