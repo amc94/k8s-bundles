@@ -17,6 +17,7 @@ module "model_integration" {
 }
 
 module "cos_integration" {
+  for_each  = var.cos_endpoints
   source = "../cmr_integrator"
-
+  integrations = local.cmr_integrations
 }
