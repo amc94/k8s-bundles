@@ -50,7 +50,7 @@ variable "k8s_config" {
 
 variable "k8s_worker_config" {
   description = "configuration for the k8s_worker charm"
-  type = object({
+  type = map(object({
     app_name    = optional(string, "k8s_worker")
     base        = string
     channel     = string
@@ -60,7 +60,7 @@ variable "k8s_worker_config" {
     revision    = optional(number)
     units       = number
     storage     = optional(map(string))
-  })
+  }))
 }
 
 variable "csi_config" {
