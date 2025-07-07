@@ -12,11 +12,11 @@ module "grafana_agent" {
 
 module "model_integration" {
   for_each     = var.model_endpoints
-  source       = "./model_integrator"
+  source       = "../model_integrator"
   integrations = local.integrations
 }
 
 module "cos_integration" {
-  source = "./cmr_integrator"
+  source = "../cmr_integrator"
 
 }
