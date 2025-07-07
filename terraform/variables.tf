@@ -137,6 +137,7 @@ variable "ceph_endpoints" {
 
 variable "cos_endpoints" {
   description = "cos endpoints to relate to"
+  type        = set(string)
   default     = null
   nullable    = true
 }
