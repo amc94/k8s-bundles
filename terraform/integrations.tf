@@ -2,7 +2,7 @@
 # See LICENSE file for licensing details.
 
 data "juju_model" "this" {
-  name = var.model.name
+  name = var.model_name
 }
 
 resource "juju_integration" "k8s_cluster_integration" {
