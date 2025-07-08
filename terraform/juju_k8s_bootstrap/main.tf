@@ -38,7 +38,6 @@ resource "null_resource" "juju_add_k8s_cloud" {
 
 
 resource "null_resource" "juju_bootstrap_controller" {
-  depends_on = [local_sensitive_file.maas_credentials]
   
   provisioner "local-exec" {
     command     = <<-EOT
