@@ -1,7 +1,6 @@
 locals {
   # Build bootstrap command arguments cleanly
   bootstrap_args = compact([
-    var.constraints != "" ? "--constraints '${var.constraints}'" : null,
     try(var.bootstrap_options.no_browser_login, false) ? "--no-browser-login" : null,
     try(var.bootstrap_options.default_model, "") != "" ? "--default-model '${var.bootstrap_options.default_model}'" : null,
     try(var.bootstrap_options.agent_version, null) != null ? "--agent-version '${var.bootstrap_options.agent_version}'" : null,
