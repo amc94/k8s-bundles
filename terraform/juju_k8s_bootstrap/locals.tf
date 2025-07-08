@@ -28,13 +28,13 @@ locals {
   ])
 
   k8s_args = compact([
-    try(var.k8s-options.client, false) ? "--client" : null,
-    try(var.k8s-options.cluster_name, null) != null ? "--cluster-name '${var.k8s-options.cluster_name}'" : null,
-    try(var.k8s-options.context_name, null) != null ? "--context-name '${var.k8s-options.context_name}'" : null,
-    try(var.k8s-options.credential, null) != null ? "--credential '${var.k8s-options.credential}'" : null,
-    try(var.k8s-options.region, null) != null ? "--region '${var.k8s-options.region}'" : null,
-    try(var.k8s-options.skip_storage, false) ? "--skip-storage" : null,
-    try(var.k8s-options.storage, null) != null ? "--storage '${var.k8s-options.storage}'" : null,
+    try(var.k8s_options.client, false) ? "--client" : null,
+    try(var.k8s_options.cluster_name, null) != null ? "--cluster-name '${var.k8s_options.cluster_name}'" : null,
+    try(var.k8s_options.context_name, null) != null ? "--context-name '${var.k8s_options.context_name}'" : null,
+    try(var.k8s_options.credential, null) != null ? "--credential '${var.k8s_options.credential}'" : null,
+    try(var.k8s_options.region, null) != null ? "--region '${var.k8s_options.region}'" : null,
+    try(var.k8s_options.skip_storage, false) ? "--skip-storage" : null,
+    try(var.k8s_options.storage, null) != null ? "--storage '${var.k8s_options.storage}'" : null,
   ])
 
   model_defaults_args = var.model_defaults != null ? compact([

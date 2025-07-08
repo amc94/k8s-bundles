@@ -50,11 +50,11 @@ resource "null_resource" "juju_bootstrap_controller" {
       
 
       echo ">> Bootstrapping controller '${var.controller_name}'"
-      juju bootstrap ${var.cloud_name} ${var.controller_name} ${join(" ", local.bootstrap_args)}
+      juju bootstrap ${var.cloud} ${var.controller_name} ${join(" ", local.bootstrap_args)}
       
-      if [[ "${var.enable_ha}" == "true" ]]; then
+      if [[ "${var.ha_configuration}" == "true" ]]; then
         echo ">> Enabling HA with ${var.number_of_ha_units} units"
-        juju enable-ha -n ${var.number_of_ha_units} --constraints "${var.constraints}"
+        juju enable-ha -n ${var.number_of_ha_units} ${var.bootstrap_options.bootstrap_constraints != null ? "--constraints \"${var.bootstrap_options.bootstrap_constraints}\"" : ""}
       fi
     EOT
     interpreter = ["/bin/bash", "-c"]
@@ -77,9 +77,9 @@ resource "null_resource" "juju_bootstrap_controller" {
   
   triggers = {
     controller_name = var.controller_name
-    cloud_name      = var.cloud_name
+    cloud_name      = var.cloud
     kubeconfig      = var.kubeconfig
-    enable_ha       = var.enable_ha
+    enable_ha       = var.ha_configuration
     bootstrap_hash  = sha256(join(",", local.bootstrap_args))
     k8s_hash        = sha256(join(",", local.k8s_args))
   }

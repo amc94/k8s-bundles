@@ -17,7 +17,7 @@ variable "cloud" {
 variable "ha_configuration" {
   type        = bool
   description = "enable ha"
-  default     = "false"
+  default     = false
 }
 
 variable "number_of_ha_units" {
@@ -39,7 +39,7 @@ variable "model_defaults" {
   default = null
 }
 
-variable "k8s-options" {
+variable "k8s_options" {
   type = object({
     client       = optional(bool, false)
     cluster_name = optional(string)
