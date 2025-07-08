@@ -1,7 +1,7 @@
 data "juju_offer" "remote" {
   for_each = var.integrations
 
-  offer = each.value.url
+  url = each.value.url
 }
 
 resource "juju_integration" "this" {
@@ -15,6 +15,6 @@ resource "juju_integration" "this" {
   }
 
   application {
-    url = data.juju_offer.remote[each.key].url
+    offer_url = data.juju_offer.remote[each.key].url
   }
 }
