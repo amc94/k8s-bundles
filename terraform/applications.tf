@@ -88,7 +88,7 @@ module "k8s_worker" {
 module "ceph_csi" {
   count       = length(var.csi_integration) > 0 ? 1 : 0
   source      = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=main"
-  model       = var.model.name
+  model       = var.model_name
   app_name    = var.csi_config.app_name
   base        = var.csi_config.base
   constraints = var.csi_config.constraints
