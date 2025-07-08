@@ -1,15 +1,15 @@
 locals {
   # Build bootstrap command arguments cleanly
   bootstrap_args = compact([
-    try(var.bootstrap_options.no_browser_login, false) ? "--no-browser-login" : null,
+    coalesce(var.bootstrap_options.no_browser_login, false) ? "--no-browser-login" : null,
     try(var.bootstrap_options.default_model, "") != "" ? "--default-model '${var.bootstrap_options.default_model}'" : null,
     try(var.bootstrap_options.agent_version, null) != null ? "--agent-version '${var.bootstrap_options.agent_version}'" : null,
-    try(var.bootstrap_options.auto_upgrade, false) ? "--auto-upgrade" : null,
-    try(var.bootstrap_options.build_agent, false) ? "--build-agent" : null,
+    coalesce(var.bootstrap_options.auto_upgrade, false) ? "--auto-upgrade" : null,
+    coalesce(var.bootstrap_options.build_agent, false) ? "--build-agent" : null,
     try(var.bootstrap_options.bootstrap_base, null) != null ? "--bootstrap-base '${var.bootstrap_options.bootstrap_base}'" : null,
     try(var.bootstrap_options.bootstrap_constraints, null) != null ? "--bootstrap-constraints '${var.bootstrap_options.bootstrap_constraints}'" : null,
     try(var.bootstrap_options.bootstrap_image, null) != null ? "--bootstrap-image '${var.bootstrap_options.bootstrap_image}'" : null,
-    try(var.bootstrap_options.clouds, false) ? "--clouds" : null,
+    coalesce(var.bootstrap_options.clouds, false) ? "--clouds" : null,
     try(var.bootstrap_options.regions, null) != null ? "--regions '${var.bootstrap_options.regions}'" : null,
     try(var.bootstrap_options.config, null) != null ? "--config '${var.bootstrap_options.config}'" : null,
     try(var.bootstrap_options.model_default, null) != null ? "--model-default '${var.bootstrap_options.model_default}'" : null,
@@ -18,29 +18,29 @@ locals {
     try(var.bootstrap_options.credential, null) != null ? "--credential '${var.bootstrap_options.credential}'" : null,
     try(var.bootstrap_options.db_snap, null) != null ? "--db-snap '${var.bootstrap_options.db_snap}'" : null,
     try(var.bootstrap_options.db_snap_assert_file, null) != null ? "--db-snap-assert-file '${var.bootstrap_options.db_snap_assert_file}'" : null,
-    try(var.bootstrap_options.force, false) ? "--force" : null,
-    try(var.bootstrap_options.keep_broken, false) ? "--keep-broken" : null,
+    coalesce(var.bootstrap_options.force, false) ? "--force" : null,
+    coalesce(var.bootstrap_options.keep_broken, false) ? "--keep-broken" : null,
     try(var.bootstrap_options.metadata_source, null) != null ? "--metadata-source '${var.bootstrap_options.metadata_source}'" : null,
-    try(var.bootstrap_options.no_switch, false) ? "--no-switch" : null,
+    coalesce(var.bootstrap_options.no_switch, false) ? "--no-switch" : null,
     try(var.bootstrap_options.storage_pool, null) != null ? "--storage-pool '${var.bootstrap_options.storage_pool}'" : null,
     try(var.bootstrap_options.to, null) != null ? "--to '${var.bootstrap_options.to}'" : null,
     try(var.bootstrap_options.constraints, null) != null ? "--constraints '${join(",", var.bootstrap_options.constraints)}'" : null,
   ])
 
   k8s_args = compact([
-    try(var.k8s_options.client, false) ? "--client" : null,
+    coalesce(var.k8s_options.client, false) ? "--client" : null,
     try(var.k8s_options.cluster_name, null) != null ? "--cluster-name '${var.k8s_options.cluster_name}'" : null,
     try(var.k8s_options.context_name, null) != null ? "--context-name '${var.k8s_options.context_name}'" : null,
     try(var.k8s_options.credential, null) != null ? "--credential '${var.k8s_options.credential}'" : null,
     try(var.k8s_options.region, null) != null ? "--region '${var.k8s_options.region}'" : null,
-    try(var.k8s_options.skip_storage, false) ? "--skip-storage" : null,
+    coalesce(var.k8s_options.skip_storage, false) ? "--skip-storage" : null,
     try(var.k8s_options.storage, null) != null ? "--storage '${var.k8s_options.storage}'" : null,
   ])
 
   model_defaults_args = var.model_defaults != null ? compact([
-    try(var.model_defaults.no_browser_login, false) ? "--no-browser-login" : null,
+    coalesce(var.model_defaults.no_browser_login, false) ? "--no-browser-login" : null,
     try(var.model_defaults.file, null) != null ? "--file '${var.model_defaults.file}'" : null,
-    try(var.model_defaults.ignore_read_only_fields, false) ? "--ignore-read-only-fields" : null,
+    coalesce(var.model_defaults.ignore_read_only_fields, false) ? "--ignore-read-only-fields" : null,
     try(var.model_defaults.out_file, null) != null ? "--out-file '${var.model_defaults.out_file}'" : null,
     try(var.model_defaults.region, null) != null ? "--region '${var.model_defaults.region}'" : null,
     try(var.model_defaults.reset, null) != null ? "--reset '${var.model_defaults.reset}'" : null,
