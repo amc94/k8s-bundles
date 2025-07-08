@@ -46,8 +46,10 @@ variable "k8s-options" {
     credential   = optional(string)
     region       = optional(string)
     skip_storage = optional(bool, false)
-    storage      = optional(storage)
+    storage      = optional(string)
   })
+
+  default = {}
 }
 
 variable "bootstrap_options" {
