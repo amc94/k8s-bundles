@@ -78,6 +78,7 @@ variable "csi_config" {
   })
   nullable = true
 }
+
 variable "ceph_deployment" {
   description = "whether a ceph deployment exists for this module to relate to, allowed values internal | external | none"
   type        = string
@@ -87,8 +88,8 @@ variable "ceph_deployment" {
     condition     = contains(["internal", "external", "none"], var.ceph_deployment)
     error_message = "Ceph deployment must be one of 'internal', 'external', or 'none'."
   }
-
 }
+
 variable "ceph_endpoints" {
   description = ""
   type        = string
@@ -99,7 +100,6 @@ variable "ceph_endpoints" {
     condition     = var.ceph_deployment == "external" || var.ceph_endpoints != null
     error_message = "ceph endpoints must be provided for external ceph deployments."
   }
-
 }
 
 variable "cos_endpoints" {
