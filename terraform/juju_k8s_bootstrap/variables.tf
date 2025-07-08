@@ -17,6 +17,7 @@ variable "cloud" {
 variable "ha_configuration" {
   type        = bool
   description = "enable ha"
+  default     = "false"
 }
 
 variable "number_of_ha_units" {
