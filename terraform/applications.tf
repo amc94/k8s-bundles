@@ -86,7 +86,7 @@ module "k8s_worker" {
 #}
 
 module "ceph_csi" {
-  count       = var.ceph_deployment != "none" > 0 ? 1 : 0
+  count       = var.ceph_deployment > 0 ? 1 : 0
   source      = "git::https://github.com/charmed-kubernetes/ceph-csi-operator//terraform?ref=main"
   model       = var.model_name
   app_name    = var.csi_config.app_name

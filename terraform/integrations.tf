@@ -58,18 +58,18 @@ resource "juju_integration" "ceph_k8s_info" {
 }
 
 
-resource "juju_integration" "ceph_client" {
-  count = var.ceph_deployment == "internal" ? 1 : 0
-  model = data.juju_model.this.name
-  application {
-    name     = var.ceph_mon.app_name
-    endpoint = "client"
-  }
-  application {
-    name     = module.ceph_csi.app_name
-    endpoint = module.ceph_csi.requires.ceph_client
-  }
-}
+#resource "juju_integration" "ceph_client" {
+#  count = var.ceph_deployment == "internal" ? 1 : 0
+#  model = data.juju_model.this.name
+#  application {
+#    name     = var.ceph_mon.app_name
+#    endpoint = "client"
+#  }
+#  application {
+#    name     = module.ceph_csi.app_name
+#    endpoint = module.ceph_csi.requires.ceph_client
+#  }
+#}
 
 module "ceph_external_integration" {
   count  = var.ceph_deployment == "external" ? 1 : 0
